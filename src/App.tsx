@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './App.css';
 
-class Player extends React.Component<{}, { hand: number }> {
+class HandSelector extends React.Component<{}, { hand: number }> {
   constructor() {
     super({});
 
@@ -13,6 +13,9 @@ class Player extends React.Component<{}, { hand: number }> {
   // グー: 1, チョキ: 2, パー: 3
   render() {
     return (
+      // TODO: 各ボタンを1つのコンポーネントにまとめる
+      // TODO: this.state.hand != 0の時はボタンが押せないようにする
+      // TODO: stateをGameに渡す
       <div className="Player">
         <button className="グー" onClick={() => this.setState({hand: 1})}>
           グー
@@ -28,16 +31,6 @@ class Player extends React.Component<{}, { hand: number }> {
   }
 }
 
-class Computer extends React.Component <{}, { hand: number }> {
-  constructor() {
-    super({});
-
-    this.state = {
-      hand: 0,
-    };
-  }
-}
-
 class Game extends React.Component<{}, { player: number, computer: number }> {
   constructor() {
     super({});
@@ -48,11 +41,19 @@ class Game extends React.Component<{}, { player: number, computer: number }> {
     };
   }
 
-    render() {
+  // TODO: stateをHandSelectorに渡す
+  renderHandSelector() {
+    return <HandSelector hand={this.state.player} />;
+  }
+
+  // TODO: this.state.player != 0になったらコンピューターの手を計算する
+  // TODO: this.state.player != 0になったらcomputerの手を表示する
+  // TODO: this.state.computer != 0になったら勝敗判定をする
+  // TODO: this.state.computer != 0になったらrestartボタンを追加する
+  render() {
     return (
       <div className="Game">
-        <Player />
-        <Computer />
+        <HandSelector />
         <p className="Selected-hand">あなたの手：{resolveHandName(this.state.player)}</p>
         <p className="Selected-hand">わたしの手：{resolveHandName(this.state.computer)}</p>
       </div>
@@ -112,6 +113,7 @@ function resolveHandName(handNum: number) {
   }
 }
 
+// TODO: 勝敗を判定する関数を完成させる
 // function determineWinner(player: number, computer: number) {
 //   return "computer";
 // }
